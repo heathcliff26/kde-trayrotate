@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
   <title id="title">Screen rotation</title>
   <g fill="none" stroke="#121e2a" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
-    <path d="M7 7h23v13" />
-    <path d="m25 15 5 5 5-5" />
-    <path d="M30 41H11V28" />
-    <path d="m16 33-5-5-5 5" />
+    <path d="M10.5 4.65h23v15.15" />
+    <path d="m28.5 14.55 5 5.25 5-5.25" />
+    <path d="M33.5 43.55H14.5V28.2" />
+    <path d="m19.5 33.45-5-5.25-5 5.25" />
   </g>
   <g fill="none" stroke="#4cc9f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-    <path d="M7 7h23v13" />
-    <path d="m25 15 5 5 5-5" />
-    <path d="M30 41H11V28" />
-    <path d="m16 33-5-5-5 5" />
+    <path d="M10.5 4.65h23v15.15" />
+    <path d="m28.5 14.55 5 5.25 5-5.25" />
+    <path d="M33.5 43.55H14.5V28.2" />
+    <path d="m19.5 33.45-5-5.25-5 5.25" />
   </g>
 </svg>
