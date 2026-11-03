@@ -47,6 +47,12 @@ func onReady() {
 					slog.Error("Failed to enable autostart", "error", err)
 				}
 			}
+
+			if autostart.IsEnabled() {
+				mAutostart.Check()
+			} else {
+				mAutostart.Uncheck()
+			}
 		}
 	}()
 
