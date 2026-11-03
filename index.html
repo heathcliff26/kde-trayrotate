@@ -55,9 +55,15 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/heathcliff26/kde-trayrotate/cmd/main.go (0.0%)</option>
+				<option value="file0">github.com/heathcliff26/kde-trayrotate/cmd/cmd.go (0.0%)</option>
 				
-				<option value="file1">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (0.0%)</option>
+				<option value="file1">github.com/heathcliff26/kde-trayrotate/cmd/main.go (0.0%)</option>
+				
+				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (0.0%)</option>
+				
+				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (0.0%)</option>
+				
+				<option value="file4">github.com/heathcliff26/kde-trayrotate/pkg/version/version.go (90.0%)</option>
 				
 				</select>
 			</div>
@@ -72,6 +78,52 @@
 		<div id="content">
 		
 		<pre class="file" id="file0" style="display: none">package main
+
+import (
+        "strings"
+
+        "github.com/heathcliff26/kde-trayrotate/pkg/version"
+        "github.com/spf13/cobra"
+)
+
+func NewRootCommand() *cobra.Command {
+        <span class="cov0" title="0">name := strings.ToLower(version.Name)
+        cobra.AddTemplateFunc(
+                "ProgramName", func() string </span>{
+                        <span class="cov0" title="0">return name
+</span>                },
+        )
+
+        <span class="cov0" title="0">rootCmd := &amp;cobra.Command{
+                Use:   name,
+                Short: version.Name + " toggle auto rotate from the system tray",
+                Run: func(_ *cobra.Command, _ []string) </span>{
+                        <span class="cov0" title="0">run()
+</span>                },
+        }
+
+        <span class="cov0" title="0">rootCmd.AddCommand(
+                version.NewCommand(),
+        )
+</span>
+        <span class="cov0" title="0">return rootCmd</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package main
+
+import "os"
+
+func main() {
+        <span class="cov0" title="0">cmd := NewRootCommand()
+        err := cmd.Execute()
+        if err != nil </span>{
+                <span class="cov0" title="0">os.Exit(1)
+</span>        }
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package main
 
 import (
         "fmt"
@@ -94,7 +146,7 @@ const (
 var doctor = kscreendoctor.NewKScreenDoctor()
 var exit = make(chan struct{})
 
-func main() {
+func run() {
         <span class="cov0" title="0">systray.Run(onReady, onExit)
 </span>}
 
@@ -200,7 +252,7 @@ func toggleAutoRotate() {
 }
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package kscreendoctor
+		<pre class="file" id="file3" style="display: none">package kscreendoctor
 
 import (
         "encoding/json"
@@ -293,6 +345,97 @@ func (ksc *KScreenDoctor) runCommand(args ...string) (string, error) {
 </span>        }
         <span class="cov0" title="0">return string(out), nil</span>
 }
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package version
+
+import (
+        "runtime"
+        "runtime/debug"
+        "strings"
+
+        "github.com/spf13/cobra"
+)
+
+const (
+        Name = "kde-trayrotate"
+)
+
+// NOTE: The $Format strings are replaced during 'git archive' thanks to the
+// companion .gitattributes file containing 'export-subst' in this same
+// directory.  See also https://git-scm.com/docs/gitattributes
+var gitCommit string = "$Format:%H$" // sha1 from git, output of $(git rev-parse HEAD)
+var gitVersion string = ""
+
+func init() {
+        <span class="cov8" title="1">initGitCommit()
+        initGitVersion()
+</span>}
+
+func initGitCommit() {
+        <span class="cov8" title="1">if strings.HasPrefix(gitCommit, "$Format") </span>{
+                <span class="cov8" title="1">var commit string
+                buildinfo, _ := debug.ReadBuildInfo()
+                for _, item := range buildinfo.Settings </span>{
+                        <span class="cov8" title="1">if item.Key == "vcs.revision" </span>{
+                                <span class="cov0" title="0">commit = item.Value
+                                break</span>
+                        }
+                }
+                <span class="cov8" title="1">if commit == "" </span>{
+                        <span class="cov8" title="1">commit = "Unknown"
+</span>                }
+                <span class="cov8" title="1">gitCommit = commit</span>
+        }
+        <span class="cov8" title="1">if gitCommit == "" </span>{
+                <span class="cov8" title="1">gitCommit = "Unknown"
+</span>        }
+        <span class="cov8" title="1">if len(gitCommit) &gt; 7 </span>{
+                <span class="cov8" title="1">gitCommit = gitCommit[:7]
+</span>        }
+}
+
+func initGitVersion() {
+        <span class="cov8" title="1">if gitVersion == "" </span>{
+                <span class="cov8" title="1">buildinfo, _ := debug.ReadBuildInfo()
+                gitVersion = buildinfo.Main.Version
+</span>        }
+}
+
+// Create a new version command with the given app name
+func NewCommand() *cobra.Command {
+        <span class="cov8" title="1">cmd := &amp;cobra.Command{
+                Use:   "version",
+                Short: "Print version information and exit",
+                Run: func(cmd *cobra.Command, args []string) </span>{
+                        <span class="cov0" title="0">cmd.Print(VersionInfoString())
+</span>                },
+        }
+        // Override to prevent parent function from running
+        <span class="cov8" title="1">cmd.PersistentPreRun = func(cmd *cobra.Command, args []string) </span>{<span class="cov0" title="0"></span>}
+
+        <span class="cov8" title="1">return cmd</span>
+}
+
+// Return the version string
+func Version() string {
+        <span class="cov8" title="1">return gitVersion
+</span>}
+
+// Return the git commit hash
+func Commit() string {
+        <span class="cov8" title="1">return gitCommit
+</span>}
+
+// Return a formated string containing the version, git commit and go version the app was compiled with.
+func VersionInfoString() string {
+        <span class="cov8" title="1">result := Name + ":\n"
+        result += "    Version: " + gitVersion + "\n"
+        result += "    Commit:  " + gitCommit + "\n"
+        result += "    Go:      " + runtime.Version() + "\n"
+</span>
+        <span class="cov8" title="1">return result
+</span>}
 </pre>
 		
 		</div>
