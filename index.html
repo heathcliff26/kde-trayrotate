@@ -61,9 +61,11 @@
 				
 				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (0.0%)</option>
 				
-				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (0.0%)</option>
+				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/autostart/autostart.go (76.0%)</option>
 				
-				<option value="file4">github.com/heathcliff26/kde-trayrotate/pkg/version/version.go (90.0%)</option>
+				<option value="file4">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (0.0%)</option>
+				
+				<option value="file5">github.com/heathcliff26/kde-trayrotate/pkg/version/version.go (90.0%)</option>
 				
 				</select>
 			</div>
@@ -132,6 +134,7 @@ import (
 
         "fyne.io/systray"
         "github.com/heathcliff26/kde-trayrotate/icons"
+        "github.com/heathcliff26/kde-trayrotate/pkg/autostart"
         "github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor"
 )
 
@@ -156,12 +159,27 @@ func onReady() {
 </span>
         <span class="cov0" title="0">systraySetDefault()
 </span>
-        <span class="cov0" title="0">mQuit := systray.AddMenuItem("Quit", "Quit the app")
-</span>
-        // Sets the icon of a menu item.
-        <span class="cov0" title="0">quitCh := mQuit.ClickedCh
+        <span class="cov0" title="0">mAutostart := systray.AddMenuItemCheckbox("Autostart", "Start on login", autostart.IsEnabled())
         go func() </span>{
-                <span class="cov0" title="0">&lt;-quitCh
+                <span class="cov0" title="0">for </span>{
+                        <span class="cov0" title="0">&lt;-mAutostart.ClickedCh
+                        if mAutostart.Checked() </span>{
+                                <span class="cov0" title="0">err := autostart.Disable()
+                                if err != nil </span>{
+                                        <span class="cov0" title="0">slog.Error("Failed to disable autostart", "error", err)
+</span>                                }
+                        } else {
+                                <span class="cov0" title="0">err := autostart.Enable()
+                                if err != nil </span>{
+                                        <span class="cov0" title="0">slog.Error("Failed to enable autostart", "error", err)
+</span>                                }
+                        }
+                }
+        }()
+
+        <span class="cov0" title="0">mQuit := systray.AddMenuItem("Quit", "Quit the app")
+        go func() </span>{
+                <span class="cov0" title="0">&lt;-mQuit.ClickedCh
                 systray.Quit()
 </span>        }()
 
@@ -252,7 +270,84 @@ func toggleAutoRotate() {
 }
 </pre>
 		
-		<pre class="file" id="file3" style="display: none">package kscreendoctor
+		<pre class="file" id="file3" style="display: none">package autostart
+
+import (
+        _ "embed"
+        "os"
+        "path/filepath"
+
+        "github.com/heathcliff26/kde-trayrotate/pkg/version"
+)
+
+const packageID = "io.github.heathcliff26." + version.Name
+
+// Should be kept in sync with the main .desktop file.
+var desktopFile = `[Desktop Entry]
+Type=Application
+
+Name=kde-trayrotate
+Comment=Quicksetting for auto rotation in the system tray
+Categories=Settings;
+Keywords=auto-rotate;
+
+Icon=io.github.heathcliff26.kde-trayrotate
+Exec=kde-trayrotate
+Terminal=false
+`
+
+func IsEnabled() bool {
+        <span class="cov8" title="1">path, err := pathToAutostartFile()
+        if err != nil </span>{
+                <span class="cov0" title="0">return false
+</span>        }
+
+        <span class="cov8" title="1">_, err = os.Stat(path)
+        return !os.IsNotExist(err)</span>
+}
+
+// Create an autostart entry if it doesn't exist.
+func Enable() error {
+        <span class="cov8" title="1">if IsEnabled() </span>{
+                <span class="cov8" title="1">return nil
+</span>        }
+
+        <span class="cov8" title="1">path, err := pathToAutostartFile()
+        if err != nil </span>{
+                <span class="cov0" title="0">return err
+</span>        }
+
+        <span class="cov8" title="1">err = os.MkdirAll(filepath.Dir(path), 0755)
+        if err != nil </span>{
+                <span class="cov0" title="0">return err
+</span>        }
+
+        <span class="cov8" title="1">return os.WriteFile(path, []byte(desktopFile), 0644)</span>
+}
+
+// Remove the autostart entry if it exists.
+func Disable() error {
+        <span class="cov8" title="1">path, err := pathToAutostartFile()
+        if err != nil </span>{
+                <span class="cov0" title="0">return err
+</span>        }
+        <span class="cov8" title="1">err = os.Remove(path)
+        if err != nil &amp;&amp; !os.IsNotExist(err) </span>{
+                <span class="cov0" title="0">return err
+</span>        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func pathToAutostartFile() (string, error) {
+        <span class="cov8" title="1">configDir, err := os.UserConfigDir()
+        if err != nil </span>{
+                <span class="cov0" title="0">return "", err
+</span>        }
+        <span class="cov8" title="1">return filepath.Join(configDir, "autostart", packageID+".desktop"), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package kscreendoctor
 
 import (
         "encoding/json"
@@ -347,7 +442,7 @@ func (ksc *KScreenDoctor) runCommand(args ...string) (string, error) {
 }
 </pre>
 		
-		<pre class="file" id="file4" style="display: none">package version
+		<pre class="file" id="file5" style="display: none">package version
 
 import (
         "runtime"
