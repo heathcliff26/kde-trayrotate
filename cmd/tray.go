@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Title   = "io.github.heathcliff26.kde-trayrotate"
+	Title   = "Auto Rotate"
 	Tooltip = "Auto Rotate"
 
 	AutoRotateOn  = "on"
