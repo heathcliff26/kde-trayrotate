@@ -22,7 +22,7 @@ coverprofile:
 
 # Format Go code
 fmt:
-	gofmt -s -w ./cmd ./pkg ./tests
+	gofmt -s -w ./cmd ./pkg
 
 # Validate that the generated files are up to date
 validate:
