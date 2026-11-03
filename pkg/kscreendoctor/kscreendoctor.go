@@ -59,6 +59,7 @@ func (ksc *KScreenDoctor) GetStatus() (map[string]string, error) {
 				policy = PolicyAlways
 			default:
 				slog.Debug("Unknown auto-rotation state", slog.Int("output", i), slog.Int("state", *output.AutoRotatePolicy))
+				continue
 			}
 			// The screen index used by kscreen-doctor counts from 1 -> i+1
 			status[strconv.Itoa(i+1)] = policy
