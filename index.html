@@ -212,6 +212,12 @@ func onReady() {
                                         <span class="cov0" title="0">slog.Error("Failed to enable autostart", "error", err)
 </span>                                }
                         }
+
+                        <span class="cov0" title="0">if autostart.IsEnabled() </span>{
+                                <span class="cov0" title="0">mAutostart.Check()
+</span>                        } else {
+                                <span class="cov0" title="0">mAutostart.Uncheck()
+</span>                        }
                 }
         }()
 
