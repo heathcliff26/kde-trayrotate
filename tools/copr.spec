@@ -12,6 +12,7 @@ URL:            https://github.com/heathcliff26/kde-trayrotate
 Source:         %{url}/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires: golang >= 1.27
+Requires: libkscreen
 
 %global _description %{expand:
 Quickly toggle the KDE auto rotate setting for your screen from the system tray.}

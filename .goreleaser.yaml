@@ -58,6 +58,13 @@ nfpms:
         dst: /usr/share/metainfo/io.github.heathcliff26.{{ .PackageName }}.metainfo.xml
     rpm:
       summary: Quicksetting for auto rotation in the system tray
+    overrides:
+      rpm:
+        dependencies:
+          - libkscreen
+      deb:
+        dependencies:
+          - libkscreen-bin
 
 changelog:
   disable: true
