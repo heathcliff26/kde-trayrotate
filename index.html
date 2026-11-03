@@ -171,7 +171,7 @@ import (
         "time"
 
         "fyne.io/systray"
-        "github.com/heathcliff26/kde-trayrotate/icons"
+        resources "github.com/heathcliff26/kde-trayrotate"
         "github.com/heathcliff26/kde-trayrotate/pkg/autostart"
         "github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor"
 )
@@ -238,7 +238,7 @@ func onExit() {
 </span>}
 
 func systraySetDefault() {
-        <span class="cov0" title="0">systray.SetIcon(icons.Icon)
+        <span class="cov0" title="0">systray.SetIcon(resources.Icon)
         systray.SetTooltip(Tooltip)
 </span>}
 
@@ -263,10 +263,10 @@ func updateSystray() {
 func updateSystrayFromState(state string) {
         <span class="cov0" title="0">switch state </span>{
         case kscreendoctor.PolicyNever:
-                <span class="cov0" title="0">systray.SetIcon(icons.RotationLocked)
+                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationLocked)
                 systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOff))</span>
         case kscreendoctor.PolicyAlways:
-                <span class="cov0" title="0">systray.SetIcon(icons.RotationUnlocked)
+                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationUnlocked)
                 systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOn))</span>
         default:
                 <span class="cov0" title="0">systraySetDefault()</span>
@@ -311,28 +311,14 @@ func toggleAutoRotate() {
 		<pre class="file" id="file3" style="display: none">package autostart
 
 import (
-        _ "embed"
         "os"
         "path/filepath"
 
+        resources "github.com/heathcliff26/kde-trayrotate"
         "github.com/heathcliff26/kde-trayrotate/pkg/version"
 )
 
 const packageID = "io.github.heathcliff26." + version.Name
-
-// Should be kept in sync with the main .desktop file.
-var desktopFile = `[Desktop Entry]
-Type=Application
-
-Name=kde-trayrotate
-Comment=Quicksetting for auto rotation in the system tray
-Categories=Settings;
-Keywords=auto-rotate;
-
-Icon=io.github.heathcliff26.kde-trayrotate
-Exec=kde-trayrotate
-Terminal=false
-`
 
 func IsEnabled() bool {
         <span class="cov8" title="1">path, err := pathToAutostartFile()
@@ -360,7 +346,7 @@ func Enable() error {
                 <span class="cov0" title="0">return err
 </span>        }
 
-        <span class="cov8" title="1">return os.WriteFile(path, []byte(desktopFile), 0644)</span>
+        <span class="cov8" title="1">return os.WriteFile(path, []byte(resources.DesktopFile), 0644)</span>
 }
 
 // Remove the autostart entry if it exists.
