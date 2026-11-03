@@ -7,6 +7,7 @@ import (
 
 	"fyne.io/systray"
 	"github.com/heathcliff26/kde-trayrotate/icons"
+	"github.com/heathcliff26/kde-trayrotate/pkg/autostart"
 	"github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor"
 )
 
@@ -31,12 +32,27 @@ func onReady() {
 
 	systraySetDefault()
 
-	mQuit := systray.AddMenuItem("Quit", "Quit the app")
-
-	// Sets the icon of a menu item.
-	quitCh := mQuit.ClickedCh
+	mAutostart := systray.AddMenuItemCheckbox("Autostart", "Start on login", autostart.IsEnabled())
 	go func() {
-		<-quitCh
+		for {
+			<-mAutostart.ClickedCh
+			if mAutostart.Checked() {
+				err := autostart.Disable()
+				if err != nil {
+					slog.Error("Failed to disable autostart", "error", err)
+				}
+			} else {
+				err := autostart.Enable()
+				if err != nil {
+					slog.Error("Failed to enable autostart", "error", err)
+				}
+			}
+		}
+	}()
+
+	mQuit := systray.AddMenuItem("Quit", "Quit the app")
+	go func() {
+		<-mQuit.ClickedCh
 		systray.Quit()
 	}()
 
