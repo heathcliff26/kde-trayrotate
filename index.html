@@ -63,7 +63,7 @@
 				
 				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/autostart/autostart.go (76.0%)</option>
 				
-				<option value="file4">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (0.0%)</option>
+				<option value="file4">github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor/kscreendoctor.go (100.0%)</option>
 				
 				<option value="file5">github.com/heathcliff26/kde-trayrotate/pkg/version/version.go (90.0%)</option>
 				
@@ -402,73 +402,74 @@ type KScreenDoctor struct {
 
 // Create a new instance for kscreen-doctor commands
 func NewKScreenDoctor() *KScreenDoctor {
-        <span class="cov0" title="0">return &amp;KScreenDoctor{
+        <span class="cov8" title="1">return &amp;KScreenDoctor{
                 binary: "kscreen-doctor",
 </span>        }
 }
 
 // Get the current status of the screen rotation settings
 func (ksc *KScreenDoctor) GetStatus() (map[string]string, error) {
-        <span class="cov0" title="0">out, err := ksc.runCommand("--json")
+        <span class="cov8" title="1">out, err := ksc.runCommand("--json")
         if err != nil </span>{
-                <span class="cov0" title="0">return nil, fmt.Errorf("failed to get settings from kscreen-doctor: %w", err)
+                <span class="cov8" title="1">return nil, fmt.Errorf("failed to get settings from kscreen-doctor: %w", err)
 </span>        }
 
-        <span class="cov0" title="0">var settings ScreenSettings
+        <span class="cov8" title="1">var settings ScreenSettings
         err = json.Unmarshal([]byte(out), &amp;settings)
         if err != nil </span>{
-                <span class="cov0" title="0">return nil, fmt.Errorf("failed to parse settings from kscreen-doctor: %w", err)
+                <span class="cov8" title="1">return nil, fmt.Errorf("failed to parse settings from kscreen-doctor: %w", err)
 </span>        }
 
-        <span class="cov0" title="0">if len(settings.Outputs) == 0 </span>{
-                <span class="cov0" title="0">return nil, fmt.Errorf("no outputs found")
+        <span class="cov8" title="1">if len(settings.Outputs) == 0 </span>{
+                <span class="cov8" title="1">return nil, fmt.Errorf("no outputs found")
 </span>        }
 
-        <span class="cov0" title="0">status := make(map[string]string)
+        <span class="cov8" title="1">status := make(map[string]string)
 </span>
-        <span class="cov0" title="0">for i, output := range settings.Outputs </span>{
-                <span class="cov0" title="0">if output.AutoRotatePolicy != nil </span>{
-                        <span class="cov0" title="0">policy := ""
+        <span class="cov8" title="1">for i, output := range settings.Outputs </span>{
+                <span class="cov8" title="1">if output.AutoRotatePolicy != nil </span>{
+                        <span class="cov8" title="1">policy := ""
                         switch *output.AutoRotatePolicy </span>{
                         case 0:
-                                <span class="cov0" title="0">policy = PolicyNever</span>
+                                <span class="cov8" title="1">policy = PolicyNever</span>
                         case 1:
-                                <span class="cov0" title="0">policy = PolicyInTabledMode</span>
+                                <span class="cov8" title="1">policy = PolicyInTabledMode</span>
                         case 2:
-                                <span class="cov0" title="0">policy = PolicyAlways</span>
+                                <span class="cov8" title="1">policy = PolicyAlways</span>
                         default:
-                                <span class="cov0" title="0">slog.Debug("Unknown auto-rotation state", slog.Int("output", i), slog.Int("state", *output.AutoRotatePolicy))</span>
+                                <span class="cov8" title="1">slog.Debug("Unknown auto-rotation state", slog.Int("output", i), slog.Int("state", *output.AutoRotatePolicy))
+                                continue</span>
                         }
                         // The screen index used by kscreen-doctor counts from 1 -&gt; i+1
-                        <span class="cov0" title="0">status[strconv.Itoa(i+1)] = policy</span>
+                        <span class="cov8" title="1">status[strconv.Itoa(i+1)] = policy</span>
                 }
         }
 
-        <span class="cov0" title="0">return status, nil</span>
+        <span class="cov8" title="1">return status, nil</span>
 }
 
 // Set the auto-rotation policy for a given output
 func (ksc *KScreenDoctor) SetAutoRotatePolicies(outputs map[string]string, policy string) error {
-        <span class="cov0" title="0">for output, state := range outputs </span>{
-                <span class="cov0" title="0">if state == policy </span>{
-                        <span class="cov0" title="0">continue</span>
+        <span class="cov8" title="1">for output, state := range outputs </span>{
+                <span class="cov8" title="1">if state == policy </span>{
+                        <span class="cov8" title="1">continue</span>
                 }
 
-                <span class="cov0" title="0">_, err := ksc.runCommand(fmt.Sprintf(autoRotatePolicyTemplate, output, policy))
+                <span class="cov8" title="1">_, err := ksc.runCommand(fmt.Sprintf(autoRotatePolicyTemplate, output, policy))
                 if err != nil </span>{
-                        <span class="cov0" title="0">return fmt.Errorf("failed to set auto-rotation policy for output %s: %w", output, err)
+                        <span class="cov8" title="1">return fmt.Errorf("failed to set auto-rotation policy for output %s: %w", output, err)
 </span>                }
         }
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 
 func (ksc *KScreenDoctor) runCommand(args ...string) (string, error) {
-        <span class="cov0" title="0">cmd := exec.Command(ksc.binary, args...)
+        <span class="cov8" title="1">cmd := exec.Command(ksc.binary, args...)
         out, err := cmd.Output()
         if err != nil </span>{
-                <span class="cov0" title="0">return "", err
+                <span class="cov8" title="1">return "", err
 </span>        }
-        <span class="cov0" title="0">return string(out), nil</span>
+        <span class="cov8" title="1">return string(out), nil</span>
 }
 </pre>
 		
