@@ -1,0 +1,16 @@
+{
+  "outputs": [
+    {
+      "autoRotatePolicy": 0
+    },
+    {
+      "autoRotatePolicy": 1
+    },
+    {
+      "autoRotatePolicy": 2
+    },
+    {
+      "autoRotatePolicy": 4
+    }
+  ]
+}
