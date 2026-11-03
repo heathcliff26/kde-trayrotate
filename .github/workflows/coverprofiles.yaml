@@ -1,0 +1,16 @@
+---
+name: "Coverprofiles"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  generate-reports:
+    uses: heathcliff26/ci/.github/workflows/golang-testcover-report.yaml@main
+    secrets: inherit
+    permissions:
+      contents: write
+    with:
+      script: make coverprofile

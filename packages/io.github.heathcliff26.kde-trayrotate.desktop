@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+
+Name=kde-trayrotate
+Comment=Quicksetting for auto rotation in the system tray
+Categories=Settings;
+Keywords=auto-rotate;
+
+Icon=io.github.heathcliff26.kde-trayrotate
+Exec=kde-trayrotate
+Terminal=false

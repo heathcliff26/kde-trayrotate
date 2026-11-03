@@ -1,0 +1,32 @@
+---
+changelog:
+  exclude:
+    labels:
+      - "sync"
+  categories:
+    - title: "⚠️ Breaking Changes"
+      labels:
+        - "breaking-change"
+    - title: "🚀 Features"
+      labels:
+        - "enhancement"
+        - "feature"
+    - title: "🔒 Security"
+      labels:
+        - "security"
+    - title: "🐛 Bug Fixes"
+      labels:
+        - "bug"
+        - "performance"
+    - title: "📝 Documentation"
+      labels:
+        - "documentation"
+    - title: "🔧 Maintenance"
+      labels:
+        - "refactor"
+        - "style"
+        - "test"
+    - title: Other Changes
+      labels:
+        - "chore"
+        - "*"

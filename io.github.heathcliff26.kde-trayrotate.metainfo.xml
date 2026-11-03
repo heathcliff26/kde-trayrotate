@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop-application">
+    <id>io.github.heathcliff26.kde-trayrotate</id>
+    <name>kde-trayrotate</name>
+    <summary>Quicksetting for auto rotation in the system tray</summary>
+    <metadata_license>MIT</metadata_license>
+    <project_license>Apache-2.0</project_license>
+    <description>
+        <p>
+            Quickly toggle the KDE auto rotate setting for your screen from the system tray.
+        </p>
+    </description>
+    <developer id="io.github.heathcliff26">
+        <name>Heathcliff</name>
+    </developer>
+    <launchable type="desktop-id">io.github.heathcliff26.kde-trayrotate.desktop</launchable>
+    <url type="homepage">https://github.com/heathcliff26/kde-trayrotate</url>
+    <url type="bugtracker">https://github.com/heathcliff26/kde-trayrotate/issues</url>
+    <url type="vcs-browser">https://github.com/heathcliff26/kde-trayrotate</url>
+    <branding>
+        <color type="primary" scheme_preference="light">#023c8a</color>
+        <color type="primary" scheme_preference="dark">#03228a</color>
+    </branding>
+
+    <content_rating type="oars-1.1" />
+</component>

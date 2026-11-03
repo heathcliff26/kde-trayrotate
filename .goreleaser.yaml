@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+
+version: 2
+
+project_name: kde-trayrotate
+
+env:
+  - CGO_ENABLED=0
+
+builds:
+  - binary: "{{ .ProjectName }}"
+    main: ./cmd
+    goos:
+      - linux
+    goarch:
+      - arm64
+      - amd64
+    flags:
+      - -trimpath
+
+archives:
+  - id: tar
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}-{{ tolower .Os }}-{{ .Arch }}"
+    files:
+      - strip_parent: true
+        src: "packages/*"
+      - src: icons/rotation.png
+        dst: "io.github.heathcliff26.{{ .PackageName }}.png"
+nfpms:
+  - id: linux
+    package_name: "{{ .ProjectName }}"
+    file_name_template: "{{ .PackageName }}-linux-{{ .Arch }}"
+    maintainer: Heathcliff <heathcliff@heathcliff.eu>
+    description: |
+      Quickly toggle the KDE auto rotate setting for your screen from the system tray.
+    license: Apache-2.0
+    homepage: https://github.com/heathcliff26/{{ .ProjectName }}
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    contents:
+      - dst: /usr/share/licenses/{{ .PackageName }}
+        type: dir
+      - dst: /usr/share/doc/{{ .PackageName }}
+        type: dir
+      - src: LICENSE
+        dst: /usr/share/licenses/{{ .PackageName }}/LICENSE
+      - src: README.md
+        dst: /usr/share/doc/{{ .PackageName }}/README.md
+      - src: packages/io.github.heathcliff26.{{ .PackageName }}.desktop
+        dst: /usr/share/applications/io.github.heathcliff26.{{ .PackageName }}.desktop
+      - src: icons/rotation.png
+        dst: /usr/share/icons/hicolor/512x512/apps/io.github.heathcliff26.{{ .PackageName }}.png
+      - src: io.github.heathcliff26.{{ .PackageName }}.metainfo.xml
+        dst: /usr/share/metainfo/io.github.heathcliff26.{{ .PackageName }}.metainfo.xml
+    rpm:
+      summary: Quicksetting for auto rotation in the system tray
+
+changelog:
+  disable: true
+release:
+  disable: true
