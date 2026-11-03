@@ -6,8 +6,10 @@ APP_ID="io.github.heathcliff26.kde-trayrotate"
 BINARY="kde-trayrotate"
 
 bin_dir="$HOME/.local/bin"
+icon_dir="$HOME/.local/share/icons/hicolor"
 if [ "$(whoami)" == "root" ]; then
     bin_dir="/usr/local/bin"
+    icon_dir="/usr/share/icons/hicolor"
 fi
 
 help() {
@@ -27,6 +29,8 @@ install() {
 
     echo "Installing icon"
     xdg-icon-resource install --size 512 "${base_dir}/${APP_ID}.png"
+    mkdir -p "${icon_dir}/scalable/apps"
+    cp "${base_dir}/${APP_ID}.svg" "${icon_dir}/scalable/apps/${APP_ID}.svg"
 
     xdg-desktop-menu forceupdate
     xdg-icon-resource forceupdate
@@ -39,6 +43,7 @@ uninstall() {
     echo "Removing desktop file and icon"
     xdg-desktop-menu uninstall "${APP_ID}.desktop"
     xdg-icon-resource uninstall --size 512 "${APP_ID}.png"
+    rm "${icon_dir}/scalable/apps/${APP_ID}.svg"
 }
 
 while [[ "$#" -gt 0 ]]; do

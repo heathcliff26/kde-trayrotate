@@ -26,8 +26,6 @@ archives:
     files:
       - strip_parent: true
         src: "packages/*"
-      - src: icons/rotation.png
-        dst: "io.github.heathcliff26.kde-trayrotate.png"
 nfpms:
   - id: linux
     package_name: "{{ .ProjectName }}"
@@ -52,8 +50,10 @@ nfpms:
         dst: /usr/share/doc/{{ .PackageName }}/README.md
       - src: packages/io.github.heathcliff26.{{ .PackageName }}.desktop
         dst: /usr/share/applications/io.github.heathcliff26.{{ .PackageName }}.desktop
-      - src: icons/rotation.png
+      - src: packages/io.github.heathcliff26.kde-trayrotate.png
         dst: /usr/share/icons/hicolor/512x512/apps/io.github.heathcliff26.{{ .PackageName }}.png
+      - src: packages/io.github.heathcliff26.kde-trayrotate.svg
+        dst: /usr/share/icons/hicolor/scalable/apps/io.github.heathcliff26.{{ .PackageName }}.svg
       - src: io.github.heathcliff26.{{ .PackageName }}.metainfo.xml
         dst: /usr/share/metainfo/io.github.heathcliff26.{{ .PackageName }}.metainfo.xml
     rpm:
