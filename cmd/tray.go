@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"fyne.io/systray"
-	"github.com/heathcliff26/kde-trayrotate/icons"
+	resources "github.com/heathcliff26/kde-trayrotate"
 	"github.com/heathcliff26/kde-trayrotate/pkg/autostart"
 	"github.com/heathcliff26/kde-trayrotate/pkg/kscreendoctor"
 )
@@ -73,7 +73,7 @@ func onExit() {
 }
 
 func systraySetDefault() {
-	systray.SetIcon(icons.Icon)
+	systray.SetIcon(resources.Icon)
 	systray.SetTooltip(Tooltip)
 }
 
@@ -98,10 +98,10 @@ func updateSystray() {
 func updateSystrayFromState(state string) {
 	switch state {
 	case kscreendoctor.PolicyNever:
-		systray.SetIcon(icons.RotationLocked)
+		systray.SetIcon(resources.IconRotationLocked)
 		systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOff))
 	case kscreendoctor.PolicyAlways:
-		systray.SetIcon(icons.RotationUnlocked)
+		systray.SetIcon(resources.IconRotationUnlocked)
 		systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOn))
 	default:
 		systraySetDefault()

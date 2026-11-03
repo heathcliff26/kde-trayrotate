@@ -29,7 +29,8 @@ make build
 %install
 install -D -m 0755 bin/%{name} %{buildroot}/%{_bindir}/%{name}
 install -D -m 0644 packages/%{package_id}.desktop %{buildroot}/%{_datadir}/applications/%{package_id}.desktop
-install -D -m 0644 icons/rotation.png %{buildroot}/%{_datadir}/icons/hicolor/512x512/apps/%{package_id}.png
+install -D -m 0644 packages/%{package_id}.png %{buildroot}/%{_datadir}/icons/hicolor/512x512/apps/%{package_id}.png
+install -D -m 0644 packages/%{package_id}.svg %{buildroot}/%{_datadir}/icons/hicolor/scalable/apps/%{package_id}.svg
 install -D -m 0644 %{package_id}.metainfo.xml %{buildroot}/%{_datadir}/metainfo/%{package_id}.metainfo.xml
 
 %files
@@ -38,6 +39,7 @@ install -D -m 0644 %{package_id}.metainfo.xml %{buildroot}/%{_datadir}/metainfo/
 %{_bindir}/%{name}
 %{_datadir}/applications/%{package_id}.desktop
 %{_datadir}/icons/hicolor/512x512/apps/%{package_id}.png
+%{_datadir}/icons/hicolor/scalable/apps/%{package_id}.svg
 %{_datadir}/metainfo/%{package_id}.metainfo.xml
 
 %changelog

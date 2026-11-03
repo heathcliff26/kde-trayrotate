@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	resources "github.com/heathcliff26/kde-trayrotate"
 	"github.com/stretchr/testify/require"
 )
 
@@ -40,7 +41,7 @@ func TestEnable(t *testing.T) {
 		require.NoError(err, "Should get autostart file path")
 		res, err := os.ReadFile(path)
 		require.NoError(err, "Should read autostart file")
-		require.Equal(desktopFile, string(res), "Autostart file content should match")
+		require.Equal(string(resources.DesktopFile), string(res), "Autostart file content should match")
 	})
 	t.Run("NoOverwrite", func(t *testing.T) {
 		require := require.New(t)
