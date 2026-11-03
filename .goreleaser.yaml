@@ -27,7 +27,7 @@ archives:
       - strip_parent: true
         src: "packages/*"
       - src: icons/rotation.png
-        dst: "io.github.heathcliff26.{{ .PackageName }}.png"
+        dst: "io.github.heathcliff26.kde-trayrotate.png"
 nfpms:
   - id: linux
     package_name: "{{ .ProjectName }}"
