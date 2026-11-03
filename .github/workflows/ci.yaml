@@ -53,6 +53,7 @@ jobs:
       - lint
       - validate
     with:
+      release: ""
       cmd: "make release"
       artifact-name: "desktop"
       artifact: dist/*
