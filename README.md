@@ -21,6 +21,8 @@ Quickly toggle the KDE auto rotate setting for your screen from the system tray.
 
 Simply start the app. You will then see the icon in the system tray. Clicking/Tapping the icon will toggle the auto rotate setting.
 
+The app uses `kscreen-doctor` to interact with the KDE Screen settings.
+
 ## Installation
 
 ### Download binary
