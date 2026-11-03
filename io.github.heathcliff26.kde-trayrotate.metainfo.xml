@@ -21,5 +21,46 @@
     <color type="primary" scheme_preference="light">#023c8a</color>
     <color type="primary" scheme_preference="dark">#03228a</color>
   </branding>
+  <releases>
+    <release type="stable" version="v0.0.2" date="2026-11-03T00:00:00Z">
+      <description>
+        <p>🐛 Bug Fixes:</p>
+        <p>Kscreen-doctor status returns empty policy</p>
+        <p>Use user friendly title</p>
+        <p>🧪 Testing:</p>
+        <p>Add unit-test for kscreendoctor</p>
+        <p>Add unit-tests to main package</p>
+      </description>
+    </release>
+    <release type="stable" version="v0.0.1" date="2026-11-03T00:00:00Z">
+      <description>
+        <p>This release adds the following features:</p>
+        <ul>
+          <li>Add build scripts and pipelines</li>
+          <li>Add version information to binary</li>
+          <li>Add option to enable/disable autostart</li>
+          <li>Add flag for log level</li>
+          <li>🐛 Bug Fixes:</li>
+          <li>Make fmt remove test folder</li>
+          <li>Add kscreen-doctor to package dependencies</li>
+          <li>Wrong name for icon in tarball</li>
+          <li>Update autostart setting with actual state</li>
+        </ul>
+        <p>This release updates documentation:</p>
+        <ul>
+          <li>Update README with usage and installation instructions</li>
+          <li>Add kscreen-doctor requirement to README.md</li>
+          <li>Add Plasma 6.7 minimum</li>
+          <li>🚜 Refactor:</li>
+          <li>Use resource package from project route</li>
+          <li>🎨 Styling:</li>
+          <li>Remove lock symbol from icon</li>
+          <li>⚙️ Miscellaneous Tasks:</li>
+          <li>Vendor dependencies</li>
+          <li>*(release)* Update changelog for v0.0.1-alpha.0</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
   <content_rating type="oars-1.1"/>
 </component>
