@@ -82,11 +82,16 @@
 		<pre class="file" id="file0" style="display: none">package main
 
 import (
+        "fmt"
+        "log/slog"
+        "os"
         "strings"
 
         "github.com/heathcliff26/kde-trayrotate/pkg/version"
         "github.com/spf13/cobra"
 )
+
+const flagLogLevel = "log"
 
 func NewRootCommand() *cobra.Command {
         <span class="cov0" title="0">name := strings.ToLower(version.Name)
@@ -99,16 +104,49 @@ func NewRootCommand() *cobra.Command {
         <span class="cov0" title="0">rootCmd := &amp;cobra.Command{
                 Use:   name,
                 Short: version.Name + " toggle auto rotate from the system tray",
-                Run: func(_ *cobra.Command, _ []string) </span>{
-                        <span class="cov0" title="0">run()
-</span>                },
-        }
+</span>        }
 
+        <span class="cov0" title="0">logLevel := rootCmd.Flags().StringP(flagLogLevel, "l", "info", "Set the log level")
+</span>
         <span class="cov0" title="0">rootCmd.AddCommand(
                 version.NewCommand(),
         )
 </span>
+        <span class="cov0" title="0">rootCmd.Run = func(cmd *cobra.Command, _ []string) </span>{
+                <span class="cov0" title="0">err := setLogLevel(*logLevel)
+                if err != nil </span>{
+                        <span class="cov0" title="0">cmd.PrintErrf("Error: %v\n", err)
+                        os.Exit(1)
+</span>                }
+                <span class="cov0" title="0">run()</span>
+        }
+
         <span class="cov0" title="0">return rootCmd</span>
+}
+
+// Parse a given string and set the resulting log level
+func setLogLevel(level string) error {
+        <span class="cov0" title="0">var logLevel slog.Level
+        switch strings.ToLower(level) </span>{
+        case "debug":
+                <span class="cov0" title="0">logLevel = slog.LevelDebug</span>
+        case "info":
+                <span class="cov0" title="0">logLevel = slog.LevelInfo</span>
+        case "warn":
+                <span class="cov0" title="0">logLevel = slog.LevelWarn</span>
+        case "error":
+                <span class="cov0" title="0">logLevel = slog.LevelError</span>
+        default:
+                <span class="cov0" title="0">return fmt.Errorf("invalid log level '%s'", level)</span>
+        }
+
+        <span class="cov0" title="0">opts := slog.HandlerOptions{
+                Level: logLevel,
+</span>        }
+        <span class="cov0" title="0">logger := slog.New(slog.NewTextHandler(os.Stdout, &amp;opts))
+        slog.SetDefault(logger)
+</span>
+        <span class="cov0" title="0">return nil</span>
 }
 </pre>
 		
