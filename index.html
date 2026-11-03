@@ -55,11 +55,11 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/heathcliff26/kde-trayrotate/cmd/cmd.go (0.0%)</option>
+				<option value="file0">github.com/heathcliff26/kde-trayrotate/cmd/cmd.go (91.7%)</option>
 				
 				<option value="file1">github.com/heathcliff26/kde-trayrotate/cmd/main.go (0.0%)</option>
 				
-				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (0.0%)</option>
+				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (15.9%)</option>
 				
 				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/autostart/autostart.go (76.0%)</option>
 				
@@ -94,59 +94,59 @@ import (
 const flagLogLevel = "log"
 
 func NewRootCommand() *cobra.Command {
-        <span class="cov0" title="0">name := strings.ToLower(version.Name)
+        <span class="cov8" title="1">name := strings.ToLower(version.Name)
         cobra.AddTemplateFunc(
                 "ProgramName", func() string </span>{
                         <span class="cov0" title="0">return name
 </span>                },
         )
 
-        <span class="cov0" title="0">rootCmd := &amp;cobra.Command{
+        <span class="cov8" title="1">rootCmd := &amp;cobra.Command{
                 Use:   name,
                 Short: version.Name + " toggle auto rotate from the system tray",
 </span>        }
 
-        <span class="cov0" title="0">logLevel := rootCmd.Flags().StringP(flagLogLevel, "l", "info", "Set the log level")
+        <span class="cov8" title="1">logLevel := rootCmd.Flags().StringP(flagLogLevel, "l", "info", "Set the log level")
 </span>
-        <span class="cov0" title="0">rootCmd.AddCommand(
+        <span class="cov8" title="1">rootCmd.AddCommand(
                 version.NewCommand(),
         )
 </span>
-        <span class="cov0" title="0">rootCmd.Run = func(cmd *cobra.Command, _ []string) </span>{
-                <span class="cov0" title="0">err := setLogLevel(*logLevel)
+        <span class="cov8" title="1">rootCmd.Run = func(cmd *cobra.Command, _ []string) </span>{
+                <span class="cov8" title="1">err := setLogLevel(*logLevel)
                 if err != nil </span>{
-                        <span class="cov0" title="0">cmd.PrintErrf("Error: %v\n", err)
+                        <span class="cov8" title="1">cmd.PrintErrf("Error: %v\n", err)
                         os.Exit(1)
 </span>                }
                 <span class="cov0" title="0">run()</span>
         }
 
-        <span class="cov0" title="0">return rootCmd</span>
+        <span class="cov8" title="1">return rootCmd</span>
 }
 
 // Parse a given string and set the resulting log level
 func setLogLevel(level string) error {
-        <span class="cov0" title="0">var logLevel slog.Level
+        <span class="cov8" title="1">var logLevel slog.Level
         switch strings.ToLower(level) </span>{
         case "debug":
-                <span class="cov0" title="0">logLevel = slog.LevelDebug</span>
+                <span class="cov8" title="1">logLevel = slog.LevelDebug</span>
         case "info":
-                <span class="cov0" title="0">logLevel = slog.LevelInfo</span>
+                <span class="cov8" title="1">logLevel = slog.LevelInfo</span>
         case "warn":
-                <span class="cov0" title="0">logLevel = slog.LevelWarn</span>
+                <span class="cov8" title="1">logLevel = slog.LevelWarn</span>
         case "error":
-                <span class="cov0" title="0">logLevel = slog.LevelError</span>
+                <span class="cov8" title="1">logLevel = slog.LevelError</span>
         default:
-                <span class="cov0" title="0">return fmt.Errorf("invalid log level '%s'", level)</span>
+                <span class="cov8" title="1">return fmt.Errorf("invalid log level '%s'", level)</span>
         }
 
-        <span class="cov0" title="0">opts := slog.HandlerOptions{
+        <span class="cov8" title="1">opts := slog.HandlerOptions{
                 Level: logLevel,
 </span>        }
-        <span class="cov0" title="0">logger := slog.New(slog.NewTextHandler(os.Stdout, &amp;opts))
+        <span class="cov8" title="1">logger := slog.New(slog.NewTextHandler(os.Stdout, &amp;opts))
         slog.SetDefault(logger)
 </span>
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 </pre>
 		
@@ -198,29 +198,8 @@ func onReady() {
         <span class="cov0" title="0">systraySetDefault()
 </span>
         <span class="cov0" title="0">mAutostart := systray.AddMenuItemCheckbox("Autostart", "Start on login", autostart.IsEnabled())
-        go func() </span>{
-                <span class="cov0" title="0">for </span>{
-                        <span class="cov0" title="0">&lt;-mAutostart.ClickedCh
-                        if mAutostart.Checked() </span>{
-                                <span class="cov0" title="0">err := autostart.Disable()
-                                if err != nil </span>{
-                                        <span class="cov0" title="0">slog.Error("Failed to disable autostart", "error", err)
-</span>                                }
-                        } else {
-                                <span class="cov0" title="0">err := autostart.Enable()
-                                if err != nil </span>{
-                                        <span class="cov0" title="0">slog.Error("Failed to enable autostart", "error", err)
-</span>                                }
-                        }
-
-                        <span class="cov0" title="0">if autostart.IsEnabled() </span>{
-                                <span class="cov0" title="0">mAutostart.Check()
-</span>                        } else {
-                                <span class="cov0" title="0">mAutostart.Uncheck()
-</span>                        }
-                }
-        }()
-
+        go toggleAutostartLoop(mAutostart)
+</span>
         <span class="cov0" title="0">mQuit := systray.AddMenuItem("Quit", "Quit the app")
         go func() </span>{
                 <span class="cov0" title="0">&lt;-mQuit.ClickedCh
@@ -242,6 +221,33 @@ func onReady() {
 func onExit() {
         <span class="cov0" title="0">close(exit)
 </span>}
+
+func toggleAutostartLoop(mAutostart *systray.MenuItem) {
+        <span class="cov8" title="1">for </span>{
+                <span class="cov8" title="1">select </span>{
+                case &lt;-mAutostart.ClickedCh:<span class="cov8" title="1"></span>
+                case &lt;-exit:
+                        <span class="cov8" title="1">return</span>
+                }
+                <span class="cov8" title="1">if mAutostart.Checked() </span>{
+                        <span class="cov8" title="1">err := autostart.Disable()
+                        if err != nil </span>{
+                                <span class="cov0" title="0">slog.Error("Failed to disable autostart", "error", err)
+</span>                        }
+                } else {
+                        <span class="cov8" title="1">err := autostart.Enable()
+                        if err != nil </span>{
+                                <span class="cov0" title="0">slog.Error("Failed to enable autostart", "error", err)
+</span>                        }
+                }
+
+                <span class="cov8" title="1">if autostart.IsEnabled() </span>{
+                        <span class="cov8" title="1">mAutostart.Check()
+</span>                } else {
+                        <span class="cov8" title="1">mAutostart.Uncheck()
+</span>                }
+        }
+}
 
 func systraySetDefault() {
         <span class="cov0" title="0">systray.SetIcon(resources.Icon)
