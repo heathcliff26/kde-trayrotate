@@ -33,28 +33,7 @@ func onReady() {
 	systraySetDefault()
 
 	mAutostart := systray.AddMenuItemCheckbox("Autostart", "Start on login", autostart.IsEnabled())
-	go func() {
-		for {
-			<-mAutostart.ClickedCh
-			if mAutostart.Checked() {
-				err := autostart.Disable()
-				if err != nil {
-					slog.Error("Failed to disable autostart", "error", err)
-				}
-			} else {
-				err := autostart.Enable()
-				if err != nil {
-					slog.Error("Failed to enable autostart", "error", err)
-				}
-			}
-
-			if autostart.IsEnabled() {
-				mAutostart.Check()
-			} else {
-				mAutostart.Uncheck()
-			}
-		}
-	}()
+	go toggleAutostartLoop(mAutostart)
 
 	mQuit := systray.AddMenuItem("Quit", "Quit the app")
 	go func() {
@@ -76,6 +55,33 @@ func onReady() {
 
 func onExit() {
 	close(exit)
+}
+
+func toggleAutostartLoop(mAutostart *systray.MenuItem) {
+	for {
+		select {
+		case <-mAutostart.ClickedCh:
+		case <-exit:
+			return
+		}
+		if mAutostart.Checked() {
+			err := autostart.Disable()
+			if err != nil {
+				slog.Error("Failed to disable autostart", "error", err)
+			}
+		} else {
+			err := autostart.Enable()
+			if err != nil {
+				slog.Error("Failed to enable autostart", "error", err)
+			}
+		}
+
+		if autostart.IsEnabled() {
+			mAutostart.Check()
+		} else {
+			mAutostart.Uncheck()
+		}
+	}
 }
 
 func systraySetDefault() {
