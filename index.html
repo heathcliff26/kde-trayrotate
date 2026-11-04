@@ -59,7 +59,7 @@
 				
 				<option value="file1">github.com/heathcliff26/kde-trayrotate/cmd/main.go (0.0%)</option>
 				
-				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (15.9%)</option>
+				<option value="file2">github.com/heathcliff26/kde-trayrotate/cmd/tray.go (16.4%)</option>
 				
 				<option value="file3">github.com/heathcliff26/kde-trayrotate/pkg/autostart/autostart.go (76.0%)</option>
 				
@@ -166,7 +166,6 @@ func main() {
 		<pre class="file" id="file2" style="display: none">package main
 
 import (
-        "fmt"
         "log/slog"
         "time"
 
@@ -178,10 +177,7 @@ import (
 
 const (
         Title   = "Auto Rotate"
-        Tooltip = "Auto Rotate"
-
-        AutoRotateOn  = "on"
-        AutoRotateOff = "off"
+        Tooltip = "Toggle Auto Rotate"
 )
 
 var doctor = kscreendoctor.NewKScreenDoctor()
@@ -275,11 +271,9 @@ func updateSystray() {
 func updateSystrayFromState(state string) {
         <span class="cov0" title="0">switch state </span>{
         case kscreendoctor.PolicyNever:
-                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationLocked)
-                systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOff))</span>
+                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationLocked)</span>
         case kscreendoctor.PolicyAlways:
-                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationUnlocked)
-                systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOn))</span>
+                <span class="cov0" title="0">systray.SetIcon(resources.IconRotationUnlocked)</span>
         default:
                 <span class="cov0" title="0">systraySetDefault()</span>
         }
