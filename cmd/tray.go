@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"time"
 
@@ -13,10 +12,7 @@ import (
 
 const (
 	Title   = "Auto Rotate"
-	Tooltip = "Auto Rotate"
-
-	AutoRotateOn  = "on"
-	AutoRotateOff = "off"
+	Tooltip = "Toggle Auto Rotate"
 )
 
 var doctor = kscreendoctor.NewKScreenDoctor()
@@ -111,10 +107,8 @@ func updateSystrayFromState(state string) {
 	switch state {
 	case kscreendoctor.PolicyNever:
 		systray.SetIcon(resources.IconRotationLocked)
-		systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOff))
 	case kscreendoctor.PolicyAlways:
 		systray.SetIcon(resources.IconRotationUnlocked)
-		systray.SetTooltip(fmt.Sprintf("%s: %s", Tooltip, AutoRotateOn))
 	default:
 		systraySetDefault()
 	}
