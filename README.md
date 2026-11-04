@@ -11,6 +11,7 @@ Quickly toggle the KDE auto rotate setting for your screen from the system tray.
 - [kde-trayrotate](#kde-trayrotate)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
+    - [Meaning of different icons](#meaning-of-different-icons)
   - [Installation](#installation)
     - [Download binary](#download-binary)
       - [Uninstalling](#uninstalling)
@@ -22,6 +23,15 @@ Quickly toggle the KDE auto rotate setting for your screen from the system tray.
 Simply start the app. You will then see the icon in the system tray. Clicking/Tapping the icon will toggle the auto rotate setting.
 
 The app uses `kscreen-doctor` to interact with the KDE Screen settings. Requires Plasma 6.7+.
+
+### Meaning of different icons
+
+The app will show different icons depending on the current state of the auto rotate setting. The used icons are:
+
+| Off                                           | On                                             | Unknown                                                                    |
+| --------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------- |
+| ![Auto rotate off](icons/rotation-locked.png) | ![Auto rotate on](icons/rotation-unlocked.png) | ![Auto rotate unknown](packages/io.github.heathcliff26.kde-trayrotate.png) |
+| Won't rotate the screen                       | Will rotate the screen                         | Unable to find out, likely because no monitor supports it.                 |
 
 ## Installation
 
