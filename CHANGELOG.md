@@ -1,5 +1,18 @@
 # Changelog
 
+Version v0.0.3
+--------------------
+Released: 2026-11-13
+
+📚 Documentation:
+- Add explanation for icon colors
+
+🎨 Styling:
+- Rename tooltip
+
+⚙️ Miscellaneous Tasks:
+- *(ci)* Remove gemfury job
+
 Version v0.0.2
 --------------------
 Released: 2026-11-03
@@ -11,6 +24,9 @@ Released: 2026-11-03
 🧪 Testing:
 - Add unit-test for kscreendoctor
 - Add unit-tests to main package
+
+⚙️ Miscellaneous Tasks:
+- *(release)* Update changelog for v0.0.2
 
 Version v0.0.1
 --------------------

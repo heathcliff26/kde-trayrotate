@@ -22,6 +22,18 @@
     <color type="primary" scheme_preference="dark">#03228a</color>
   </branding>
   <releases>
+    <release type="stable" version="v0.0.3" date="2026-11-13T00:00:00Z">
+      <description>
+        <p>This release updates documentation:</p>
+        <ul>
+          <li>Add explanation for icon colors</li>
+          <li>🎨 Styling:</li>
+          <li>Rename tooltip</li>
+          <li>⚙️ Miscellaneous Tasks:</li>
+          <li>*(ci)* Remove gemfury job</li>
+        </ul>
+      </description>
+    </release>
     <release type="stable" version="v0.0.2" date="2026-11-03T00:00:00Z">
       <description>
         <p>🐛 Bug Fixes:</p>
@@ -30,6 +42,8 @@
         <p>🧪 Testing:</p>
         <p>Add unit-test for kscreendoctor</p>
         <p>Add unit-tests to main package</p>
+        <p>⚙️ Miscellaneous Tasks:</p>
+        <p>*(release)* Update changelog for v0.0.2</p>
       </description>
     </release>
     <release type="stable" version="v0.0.1" date="2026-11-03T00:00:00Z">
